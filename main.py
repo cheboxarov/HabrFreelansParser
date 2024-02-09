@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import telebot
-token = "6945982750:AAEKdgexVhc3crjUD20ZoCMYcCcs92_sjeU"
+token = "TOKEN"
 bot = telebot.TeleBot(token)
 orders = []
 @bot.message_handler(content_types=['text'])

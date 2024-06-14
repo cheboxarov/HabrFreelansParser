@@ -13,7 +13,7 @@ orders = []
 class Order:
     def __init__(self, title:str, description:str, price:str, meta:str):
         self._title = title.replace("\n", "")
-        self._description = description.replace("\n", "")
+        self._description = description
         self._price = price.replace("\n", "")
         self._meta = meta.replace("\n", "")
 

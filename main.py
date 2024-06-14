@@ -25,7 +25,7 @@ class Order:
 def handle_message(message):
     print(message.from_user.id)
 def main():
-    first_start = True
+    first_start = False
     while True:
         haprParsing(first_start)
         first_start = False

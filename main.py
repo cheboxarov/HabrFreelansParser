@@ -2,7 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import telebot
-token = "TOKEN"
+import json
+
+settings = json.loads(open("config.json", "r").read())
+
+token = settings["token"]
 bot = telebot.TeleBot(token)
 orders = []
 

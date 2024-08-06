@@ -68,9 +68,8 @@ class fl:
                 continue
             markup = InlineKeyboardMarkup()
             markup.add(InlineKeyboardButton("Ссылка", url=order.link))
-            print(self.db.user.get_all_users())
-            for user in self.db.user.get_all_users():
-                self.bot.send_message(user.user_id, str(order), reply_markup=markup, parse_mode="html")
+            # for user in self.db.user.get_all_users():
+            #     self.bot.send_message(user.user_id, str(order), reply_markup=markup, parse_mode="html")
             self.orders.append(order.link)
 
     def _get_order(self, link):
@@ -91,7 +90,6 @@ class fl:
             deadline = soup.find('div', class_="mt-12 text-4").text.replace('\n', '').replace('\t', '').replace('  ', '')
         except:
             deadline = 'Дедлайн не указан'
-        print(title,'\n', price, '\n', desc, '\n', deadline)
         order = Order(title, price, desc, deadline, link)
         return order
 

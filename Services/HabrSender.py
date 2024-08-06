@@ -1,8 +1,13 @@
+import time
+
 import requests
 import telebot
 from bs4 import BeautifulSoup
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from DBManager.db import DbManager
+from g4f.client import Client
+from g4f import Provider
+import g4f
 
 
 class Order:
@@ -28,6 +33,8 @@ class habr:
         if content != None:
             soup = BeautifulSoup(content, 'html.parser')
             tasks = soup.find_all('li', class_='content-list__item')
+            tasks = tasks[:3]
+            tasks = reversed(tasks)
             for val in tasks:
                 title = val.find('div', class_='task__title')
                 price = val.find('span', class_='count')
@@ -36,13 +43,25 @@ class habr:
                     url = title.find('a').get('href')
                     order_url = "https://freelance.habr.com" + url
                     order = self.get_order_info(order_url)
-                    print(order.generate_order_text())
                     if not first_start:
                         markup = InlineKeyboardMarkup()
                         markup.add(InlineKeyboardButton("Ссылка", url=order_url))
-                        print(self.db.user.get_all_users())
+
+                        default = open("prompt.txt", 'r', encoding='utf-8').read()
+                        text = order.generate_order_text()
+                        client = Client()
+                        response = client.chat.completions.create(
+                            messages=[{"role": "user", "content": default + text}],
+                            provider=Provider.Pizzagpt,
+                            model=g4f.models.default
+                        )
+                        time.sleep(3)
+                        print(text)
+                        print(response.choices[0].message.content)
+                        if "НЕ ПОДХОДИТ" in response.choices[0].message.content:
+                            continue
                         for user in self.db.user.get_all_users():
-                            self.bot.send_message(user.user_id, order.generate_order_text() + "\n", reply_markup=markup, parse_mode="html")
+                            self.bot.send_message(user.user_id, text, reply_markup=markup, parse_mode="html")
             first_start = False
         else:
             print('No content found')

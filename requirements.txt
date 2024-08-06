@@ -1,0 +1,7 @@
+telebot~=0.0.5
+requests~=2.32.3
+beautifulsoup4~=4.12.3
+g4f[all]
+SQLAlchemy~=2.0.32
+aiohttp
+curl_cffi

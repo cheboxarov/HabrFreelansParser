@@ -49,11 +49,13 @@ class habr:
 
                         default = open("prompt.txt", 'r', encoding='utf-8').read()
                         text = order.generate_order_text()
-                        client = Client()
+                        client = Client(provider=Provider.Pizzagpt)
                         response = client.chat.completions.create(
                             messages=[{"role": "user", "content": default + text}],
-                            provider=Provider.Pizzagpt,
-                            model=g4f.models.default
+                            provider=Provider.GeminiPro,
+                            model=g4f.models.default,
+                            proxy="http://WphxMf:wxe6Dk@138.59.4.163:9284",
+                            api_key="AIzaSyDfCIhXtNIkFLuYoh0W0cAGx7Tx8oMOjV0"
                         )
                         time.sleep(3)
                         print(text)

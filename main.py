@@ -27,14 +27,16 @@ def services_pooling():
     b = telebot.TeleBot(token)
     h = habr(b, db)
     f = fl(b, db)
+    first_start = True
     while True:
         try:
-            th_h = Thread(target=h.main_pool)
-            th_f = Thread(target=f.main_pool)
+            th_h = Thread(target=h.main_pool, kwargs={"first_start":first_start})
+            # th_f = Thread(target=f.main_pool)
             th_h.start()
-            th_f.start()
+            # th_f.start()
             th_h.join()
-            th_f.join()
+            # th_f.join()
+            first_start = False
         except Exception as e:
             print("Exception occurred", e)
 
